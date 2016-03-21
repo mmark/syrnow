@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block page_content %}
+    <main class="container-fluid">
+        <div class="container">
+            {% if messages %}
+                <ul class="errorlist">
+                {% for message in messages %}
+                    <li>
+                      <h2>
+                          {{ message }}
+                      </h2>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% elif user.is_authenticated %}
+            <h1>
+                Sorry, that functionality is offered only to verified account
+                holders.
+            </h1>
+            <div class="container">
+                To gain full access to your sensitive health and claims data,
+                for your protection, we must first verify your identity.
+            </div>
+            <div class="container">
+                <h2>
+                    <a id="verify-identity"
+                       href="{% url 'proactverification' %}"
+                       class="col-xs-10 text-center"
+                       title="Verify your identity to gain access to your HIPAA protected data">
+                        Click here to verify your identity now
+                    </a>
+                </h2>
+            </div>
+            <h2>
+                Having trouble getting verfied?  Call the ProAt help desk at
+                1-877-635-9545
+            </h2>
+            {% else %}
+            <h1>
+                Sorry, that functionality is offered only to verified account
+                holders.
+            </h1>
+            <p>
+                To gain full access to your sensitive health and claims data
+                start by creating an account, and then follow the steps to
+                verify your identity.
+            </p>
+            <h2>
+                Having trouble creating an account?  Call the ProAt help desk at
+                1-877-635-9545
+            </h2>
+            <div class="row well-lg">
+                <a id="register-account"
+                   class="btn btn-primary btn-lg" role="button"
+                   href="{% url 'register' %}">
+                    Get started now &raquo;
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+{% endblock page_content %}

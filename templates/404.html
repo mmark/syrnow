@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block page_content %}
+    <main class="container">
+        <div class="container">
+            {% if messages %}
+            <ul class="errorlist">
+            {% for message in messages %}
+                <li>
+                  <h2>
+                      {{ message }}
+                  </h2>
+                </li>
+            {% endfor %}
+            </ul>
+            {% else %}
+            <h1>
+                Page not found
+            </h1>
+            <p>
+                Sorry, but the requested page could not be found.  If you are
+                sure this should be the right page,
+            </p>
+            <p>
+                <a id="contact-us" href="{% url 'contactus' %}">
+                    please, let us know what went wrong so we can fix it!
+                </a>
+            </p>
+            {% endif %}
+        </div>
+    </main>
+{% endblock page_content %}

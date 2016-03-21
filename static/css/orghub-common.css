@@ -1,0 +1,17 @@
+html,
+body {
+    margin: 0;
+    padding: 0.5em 0 !important;
+    font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif;
+    font-size: 14pt;
+    font-weight: 400;
+    background-color: #FFFFFF;
+}
+.container,
+.container-fluid,
+main {
+    background-color: #FFFFFF;
+}
+main {
+    padding: 1.5em;
+}

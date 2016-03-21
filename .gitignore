@@ -1,0 +1,12 @@
+venv/
+sitemap.xml
+*.log
+sitemap.xml.gz
+*.o
+*.so
+*.pyc
+*~
+.idea/
+.*.sw*
+manage.sh
+run/gunicorn.sock

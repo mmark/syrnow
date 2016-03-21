@@ -1,0 +1,46 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=edge,chrome=1" />
+    <meta http-equiv="Content-type" content="text/html" />
+    <meta name="description" content="Organizers Hub coming soon, for now this is simply for helping Bernie Sanders by assisting Syracuse for Sanders in collecting volunteer information." />
+    <meta name="author" content="Michelle Mark - web developer, KPH Healthcare Services, Inc." />
+     <title>
+        {% block title %}
+            {% if page_title %}{{ page_title }}{% endif %}
+        {% endblock %}
+    </title>
+    <script type="text/javascript" src="{% static 'js/third_party/jquery.js' %}"></script>
+    <link type="text/css" rel="stylesheet" href="{% static "css/third_party/bootstrap.min.css" %}">
+    <link type="text/css" rel="stylesheet" href="{% static "css/third_party/jquery-ui.min.css" %}">
+    <link type="text/css" rel="stylesheet" href="{% static "css/third_party/jquery-ui.theme.min.css" %}">
+    <link type="text/css" rel="stylesheet" href="{% static "css/orghub-common.css" %}">
+    <script type="text/javascript" src="{% static "js/third_party/bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static 'js/third_party/jquery-ui.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/third_party/modernizr.min.js' %}"></script>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script type="text/javascript" src="{% static "js/third_party/ie10-viewport-bug-workaround.js" %}"></script>
+    <!-- IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="{% static 'js/third_party/html5shiv.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/third_party/respond.min.js' %}"></script>
+    <![endif]-->
+    <!--[if IE]>
+    <script type="text/javascript" src="{% static 'js/third_party/html5.js' %}"></script>
+
+    <![endif]-->
+</head>
+<body ontouchstart="">
+    <div class="container-fluid">
+        {% include 'masthead.html' %}
+        {% block page_content %}{% endblock page_content %}
+    </div>
+</body>
+</html>

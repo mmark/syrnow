@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block page_content %}
+    <main class="container-fluid">
+        <div class="container">
+            <h1>
+                500 Server Error
+            </h1>
+            <p>
+                Sorry, but there has been an error with your request.
+            </p>
+            <p>
+                <a id="contact-us" href="{% url 'contactus' %}">
+                    Please, let us know what you were trying to do so we can
+                    fix it!
+                </a>
+            </p>
+        </div>
+    </main>
+{% endblock %}
