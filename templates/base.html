@@ -36,6 +36,11 @@
     <script type="text/javascript" src="{% static 'js/third_party/html5.js' %}"></script>
 
     <![endif]-->
+    {% if form %}
+    {{ form.media }}
+    {% endif %}
+    {% load recaptcha2 %}
+    {% recaptcha_init %}
 </head>
 <body ontouchstart="">
     <div class="container-fluid">

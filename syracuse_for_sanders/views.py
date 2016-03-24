@@ -1,13 +1,18 @@
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.utils.decorators import method_decorator
+from django.utils.html import strip_tags
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.base import TemplateView
+from django.utils.http import urlunquote
 
 
 from .utility_functions import send_submission_notification
 from .models import Volunteer, FormRecipients
-from .forms import VolunteerForm
+from .forms import VolunteerForm, VolunteerEmailsForm
 
 
 class S4SVolunteerView(TemplateView):
@@ -41,7 +46,7 @@ class S4SVolunteerView(TemplateView):
         if context['form'].is_valid():
             context['form'].save()
             send_submission_notification(
-                form_recipient_type=FormRecipients.SUSPICIOUS_ACTIVITY_REPORT,
+                form_recipient_type=FormRecipients.S4S_Volunteer_Profile,
                 subject=self.email_subject,
                 form_display_name=self.form_display_name
             )
@@ -68,3 +73,58 @@ class S4SVolunteerSuccessView(TemplateView):
 
         return context
 
+
+@csrf_protect
+@login_required
+@staff_member_required
+def email_list_of_volunteers(request,):
+    context = {}
+    form_class = VolunteerEmailsForm
+    template_name = 'email-list-of-volunteers.html'
+    recipient_list = request.session.get('recipient_list', False)
+
+    if request.method == 'POST':
+        context['form'] = form_class(request.POST)
+
+        if context['form'].is_valid():
+            context['form'].save(user=request.user)
+            from_email = context['form'].cleaned_data.get('from_address')
+            to_emails = context['form'].cleaned_data.get('recipient_list')
+            to_emails = to_emails.split(',')
+            html_message = context['form'].cleaned_data.get('message')
+            text_message = strip_tags(html_message)
+            subject = context['form'].cleaned_data.get('subject')
+            success = 'Sent'
+            failed = 'Failed to Send'
+            results = []
+            result_string = ''
+
+            for email in to_emails:
+                this_result = {}
+                to_email = email.strip()
+                result = send_mail(subject, text_message, from_email, [to_email], html_message=html_message)
+
+                if result:
+                    this_result[to_email] = success
+                    result_string = result_string + to_email + ': ' + success  + ' '
+                else:
+                    this_result[to_email] = failed
+                    result_string = result_string + to_email + ': ' + failed  + ' '
+
+                results.append(this_result)
+
+            context['results'] = results
+            context['form'].results = result_string
+            context['form'].save()
+
+        return render_to_response(template_name,
+                                  context,
+                                  context_instance=RequestContext(request))
+
+    else:
+        initial = {'recipient_list': recipient_list}
+        context['form'] = form_class(initial=initial)
+
+    return render_to_response(template_name,
+                              context,
+                              context_instance=RequestContext(request))

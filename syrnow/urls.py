@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^syracuse-for-sanders/', include('syracuse_for_sanders.urls'))
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    url(r'^', include('syracuse_for_sanders.urls'))
 ]

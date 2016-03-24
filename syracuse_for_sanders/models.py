@@ -5,7 +5,6 @@ import datetime
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator, validate_email
-from phonenumber_field.modelfields import PhoneNumberField
 from django.db import models
 
 
@@ -40,6 +39,31 @@ def is_born(birth_date):
         raise ValidationError(u'%s' % 'Birth date indicates you are over 200 ')
 
 
+class VolunteerEmails(models.Model):
+    recipient_list = models.TextField()
+    from_address = models.CharField(max_length=100)
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    sent_time = models.DateTimeField(auto_now_add=True,
+                                     blank=True,
+                                     editable=False)
+    sent_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                blank=True,
+                                null=True,
+                                related_name="emails_sent")
+    results = models.TextField(blank=True,
+                               null=True)
+
+    class Meta:
+        db_table = 'volunteer_emails_sent'
+        verbose_name_plural = 'Volunteer Emails Sent'
+        ordering = ['sent_time', 'subject']
+
+    def __unicode__(self):
+
+        return u'%s, %s' % (self.first_name, self.last_name)
+
+
 class FormRecipients(models.Model):
     S4S_Volunteer_Profile = 'Syracuse for Sanders Volunteer Profile'
     FORM_CHOICES = (
@@ -64,8 +88,6 @@ class FormRecipients(models.Model):
 
 
 class Volunteer(models.Model):
-    """A person we have some information to store for."""
-
     GENERAL = 'G'
     MEDIA = 'M'
     NATIONAL_CAMPAIGN = 'N'
@@ -82,13 +104,28 @@ class Volunteer(models.Model):
                                  blank=False,
                                  null=False,
                                  validators=[ALPHA_VALIDATOR])
-    primary_contact_phone_number = PhoneNumberField(blank=True)
+    primary_contact_phone_number = models.CharField(max_length=50,
+                                                    blank=True,
+                                                    null=True,
+                                                    validators=[ALPHA_VALIDATOR])
     hours_days_ok_to_contact_on_this_number = models.TextField(blank=True,
                                                                null=True,
                                                                validators=[ALPHA_VALIDATOR])
     any_alternate_numbers = models.TextField(blank=True,
                                              null=True,
                                              validators=[ALPHA_VALIDATOR])
+    street_address = models.CharField(max_length=255,
+                                      blank=True,
+                                      null=True)
+    suite_or_apartment_number = models.CharField(max_length=100,
+                                                 blank=True,
+                                                 null=True)
+    city = models.CharField(max_length=255,
+                            blank=True,
+                            null=True)
+    state = models.CharField(max_length=2,
+                             blank=True,
+                             null=True)
     zip_code = models.CharField(max_length=10)
     hours_days_ok_to_volunteer = models.TextField(blank=True,
                                                   null=True,
@@ -119,11 +156,23 @@ class Volunteer(models.Model):
     where_do_you_work = models.CharField(max_length=100,
                                          blank=True,
                                          null=True)
-    what_skills_do_you_have = models.TextField(blank=True,
-                                               null=True)
-    member_of_any_unions = models.CharField(max_length=500,
-                                            blank=True,
-                                            null=True)
+    what_skills_do_you_bring = models.TextField(blank=True,
+                                                null=True)
+    member_of_any_community_groups = models.CharField(max_length=500,
+                                                      blank=True,
+                                                      null=True)
+    willing_to_volunteer_for_bernie_friendly_candidates = models.BooleanField(default=False)
+    submitted_time = models.DateTimeField(auto_now_add=True,
+                                          blank=True,
+                                          editable=False)
+    has_been_contacted = models.BooleanField(blank=False,
+                                             null=False,
+                                             default=False,
+                                             editable=True)
+    contacted_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                     blank=True,
+                                     null=True,
+                                     related_name="replied_to_by_user")
 
     class Meta:
         db_table = 'volunteers'

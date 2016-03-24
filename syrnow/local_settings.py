@@ -5,7 +5,7 @@ from settings import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SITE_URL = 'http://127.0.0.1:8000'
-SITE_ID = 5
+SITE_ID = 1
 DEBUG = True
 SQL_DEBUG = True
 SESSION_COOKIE_SECURE = False

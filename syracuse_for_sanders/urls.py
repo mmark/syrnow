@@ -1,9 +1,11 @@
 from django.conf.urls import url
 
-from . import views
+from .views import *
 
 
 urlpatterns = [
-    url(r'^volunteer/success', views.S4SVolunteerSuccessView.as_view(), name='s4svolunteersuccess'),
-    url(r'^volunteer', views.S4SVolunteerView.as_view(), name='s4svolunteer'),
+    url(r'^email-volunteers/', email_list_of_volunteers, name='s4semailvolunteers'),
+    url(r'^volunteer/success', S4SVolunteerSuccessView.as_view(), name='s4svolunteersuccess'),
+    url(r'^volunteer', S4SVolunteerView.as_view(), name='s4svolunteer'),
+    url(r'^$', S4SVolunteerView.as_view()),
 ]

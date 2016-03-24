@@ -2,36 +2,44 @@
 {% block page_content %}
 {% load utility_tags %}
 {% load static from staticfiles %}
-<form method="post" action="{% url 's4svolunteer' %}">
     <div class="container-fluid">
+        <div class="col-xs-12 col-sm-10 col-sm-push-1">
+            <header>
+                <h1 id="page-header">
+                    {{ display_name }}
+                </h1>
+            </header>
+        </div>
+        <div id="volunteer-intro" class="col-xs-12 col-sm-10 col-sm-push-1">
+            <p>
+                Getting organized is the main challenge for any grassroots, volunteer organization.  The below
+                information may help make the difference in being able to identify and utilize the
+                volunteer resources we have in the Syracuse NY area in a short amount of time.  Bernie Sanders has a
+                lot of support in the Syracuse NY area, but if we are going to bring him the kind of turn out he needs,
+                we need all hands on deck.  Sign up to volunteer in the Political Revolution today!
+            </p>
+        </div>
         <div class="row">
             <div class="col-xs-12 col-sm-10 col-sm-push-1 col-lg-6">
-                <header>
-                    <h1 id="page-header">
-                        {{ display_name }}
-                    </h1>
-                </header>
-                <div class="well well-lg">
+                <div class="well well-lg diag-gradient-background">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form role="form" id="feedback-form" method="post" action="{% url 's4svolunteer' %}">
+                            <form role="form" id="volunteer-form" method="post" action="{% url 's4svolunteer' %}">
                                 {% csrf_token %}
                                 {% for field in form %}
                                     {% if not field|field_type:'hiddeninput' %}
                                         <div class="form-group {% if field.errors %} has-error{% endif %}">
+                                            {{ field.label_tag|title }}
                                             {{ field.errors }}
                                             {% if field.field.required %}
-                                                {{ field.label_tag }}
                                                 <span class="required"> * </span>
-                                            {% else %}
-                                                {{ field.label_tag }}
                                             {% endif %}
                                             {{ field }}
                                         </div>
                                     {% endif %}
                                 {% endfor %}
                                 <button type="submit" id="feedback-submit"
-                                        class="btn btn-default btn-lg">
+                                        class="btn btn-primary btn-lg">
                                     Submit
                                 </button>
                             </form>
@@ -40,5 +48,4 @@
                 </div>
             </div>
         </div>
-</form>
 {% endblock %}

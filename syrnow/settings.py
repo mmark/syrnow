@@ -12,12 +12,12 @@ SECRET_KEY = os.environ.get('ORGHUB_SECRET_KEY')
 ################################################################################
 # Production mode / secure settings over ride for dev in a local_settings.py
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-SITE_ID = 1
+SITE_ID = 2
 DEBUG = False
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 ALLOWED_HOSTS = ['.organizershub.com', '.organizers-hub.com']
-SITE_URL = 'http://organizershub.com'
+SITE_URL = 'https://syracuseforsanders.organizershub.com'
 DEFAULT_FROM_EMAIL = 'michellemark@organizershub.com'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -36,16 +36,21 @@ MANAGERS = ADMINS
 GOOGLE_API_KEY = os.environ.get('ORGHUB_GOOGLE_API')
 ################################################################################
 
-
 # Application definition
-
 INSTALLED_APPS = [
+    'django_admin_bootstrapped',
+    'storages',
+    'ckeditor',
+    'ckeditor_uploader',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'snowpenguin.django.recaptcha2',
 
     'syracuse_for_sanders',
 ]
@@ -66,11 +71,14 @@ ROOT_URLCONF = 'syrnow.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -97,22 +105,75 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', },
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', },
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator', },
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', },
 ]
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+CKEDITOR_CONFIGS = {
+    'default': {
+        #'toolbar': 'Full',
+        'skin': 'moono',
+        'toolbar': [
+            {'name': 'document', 'items': ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates']},
+            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+            {'name': 'editing', 'items': ['Find', 'Replace', '-', 'SelectAll']},
+            {'name': 'forms',
+             'items': ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
+                       'HiddenField']},
+            '/',
+            {'name': 'basicstyles',
+             'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+            {'name': 'paragraph',
+             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
+                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',
+                       'Language']},
+            {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
+            {'name': 'insert',
+             'items': ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']},
+            '/',
+            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+            {'name': 'tools', 'items': ['Maximize', 'ShowBlocks']},
+            {'name': 'about', 'items': ['About']},
+            '/',  # put this to force next toolbar on new line
+            {'name': 'youcustomtools', 'items': [
+                # put the name of your editor.ui.addButton here
+                'Preview',
+                'Maximize',
+
+            ]},
+        ],
+        'extraPlugins': ','.join(
+            [
+                'a11yhelp', 'about', 'adobeair', 'ajax', 'autoembed', 'autogrow', 'autolink', 'bbcode',
+                'clipboard', 'codesnippet', 'codesnippetgeshi', 'colordialog', 'devtools', 'dialog', 'div',
+                'divarea', 'docprops', 'embed', 'embedbase', 'embedsemantic', 'filetools', 'find', 'flash',
+                'forms', 'iframe', 'iframedialog', 'image', 'image2', 'language', 'lineutils', 'link',
+                'liststyle', 'magicline', 'mathjax', 'menubutton', 'notification', 'notificationaggregator',
+                'pagebreak', 'pastefromword', 'placeholder', 'preview', 'scayt', 'sharedspace',
+                'showblocks', 'smiley', 'sourcedialog', 'specialchar', 'stylesheetparser', 'table',
+                'tableresize', 'tabletools', 'templates', 'uicolor', 'uploadimage', 'uploadwidget',
+                'widget', 'wsc', 'xml'
+            ]
+        )
+    },
+}
+CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
+RECAPTCHA_PUBLIC_KEY = '6LdcbxsTAAAAAJVVEIW7ljeXXJ6BwTlpvubsylix'
+RECAPTCHA_PRIVATE_KEY = '6LdcbxsTAAAAAFgGowBRuMAiwgFqBGRolHzf_qgM'
+

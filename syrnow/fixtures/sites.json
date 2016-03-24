@@ -1,18 +1,34 @@
 [
-    {
-        "pk": 1,
-        "model": "sites.site",
-        "fields": {
-            "domain": "127.0.0.1:8000",
-            "name": "dev [localhost]"
-        }
-    },
-    {
-        "pk": 2,
-        "model": "sites.site",
-        "fields": {
-            "domain": "organizers.syracuseforsanders.com",
-            "name": "Syracuse for Sanders Organizers Hub"
-        }
+  {
+    "pk": 1,
+    "model": "sites.site",
+    "fields": {
+      "domain": "127.0.0.1:8000",
+      "name": "dev [localhost]"
     }
+  },
+  {
+    "pk": 2,
+    "model": "sites.site",
+    "fields": {
+      "domain": "syracuseforsanders.organizershub.com",
+      "name": "Syracuse for Sanders Organizers Hub"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "sites.site",
+    "fields": {
+      "domain": "organizershub.com",
+      "name": "Syracuse for Sanders Organizers Hub"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "sites.site",
+    "fields": {
+      "domain": "www.organizershub.com",
+      "name": "Syracuse for Sanders Organizers Hub"
+    }
+  }
 ]

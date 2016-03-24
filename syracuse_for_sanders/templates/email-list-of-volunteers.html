@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block page_content %}
+{% load utility_tags %}
+{% load static from staticfiles %}
+<div class="container-fluid">
+    <div class="col-xs-12 col-sm-10 col-sm-push-1">
+        <header>
+            <h1 id="page-header">
+                Email List of Volunteers
+            </h1>
+        </header>
+    </div>
+    <div class="col-xs-12">
+        <p>
+            Use the form below to email all the list of recipients, one at a time.  After all emails have been sent
+            the list of results will be returned.  Please wait until you see the list of results returned, indicating
+            the process is finished, before leaving this page.
+        </p>
+    </div>
+    {% if results %}
+    <div class="col-xs-12">
+        <h2>
+            Results:
+        </h2>
+        <ul class="list-unstyled">
+        {% for result in results %}
+            {% for email, value in result.items %}
+                <li>
+                    {{ email }}: {{ value }}
+                </li>
+            {% endfor %}
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <div class="col-xs-12">
+        When you are done <a href="/admin/">click here to return to the admin area</a>
+    </div>
+    <div class="col-xs-12">
+        <div class="well well-lg diag-gradient-background">
+            <div class="row">
+                <div class="col-xs-12">
+                    <form role="form" id="email-volunteer-form" method="post" action="{% url 's4semailvolunteers' %}">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            {% if not field|field_type:'hiddeninput' %}
+                                <div class="form-group {% if field.errors %} has-error{% endif %}">
+                                    {{ field.label_tag|title }}
+                                    {{ field.errors }}
+                                    {% if field.field.required %}
+                                        <span class="required"> * </span>
+                                    {% endif %}
+                                    {{ field }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <button type="submit" id="feedback-submit"
+                                class="btn btn-primary btn-lg">
+                            Send Email
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
