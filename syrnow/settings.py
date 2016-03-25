@@ -106,12 +106,12 @@ USE_L10N = True
 USE_TZ = True
 STATIC_URL = '/static/'
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.environ.get('ORGHUB_STATIC')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = os.environ.get('ORGHUB_MEDIA')
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -174,6 +174,6 @@ CKEDITOR_CONFIGS = {
     },
 }
 CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
-RECAPTCHA_PUBLIC_KEY = '6LdcbxsTAAAAAJVVEIW7ljeXXJ6BwTlpvubsylix'
-RECAPTCHA_PRIVATE_KEY = '6LdcbxsTAAAAAFgGowBRuMAiwgFqBGRolHzf_qgM'
+RECAPTCHA_PUBLIC_KEY = os.environ.get('ORGHUB_RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = os.environ.get('ORGHUB_RECAPTCHA_PRIVATE_KEY')
 
