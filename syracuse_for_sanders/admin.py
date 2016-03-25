@@ -130,10 +130,12 @@ class VolunteerAdmin(admin.ModelAdmin):
 
         for volunteer in queryset:
 
-            if len(recipient_list) > 0:
-                recipient_list = recipient_list + ', '
+            if volunteer.email:
 
-            recipient_list += volunteer.email
+                if len(recipient_list) > 0:
+                    recipient_list = recipient_list + ', '
+
+                recipient_list += volunteer.email
 
         request.session['recipient_list'] = recipient_list
 

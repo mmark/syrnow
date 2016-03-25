@@ -88,14 +88,6 @@ class FormRecipients(models.Model):
 
 
 class Volunteer(models.Model):
-    GENERAL = 'G'
-    MEDIA = 'M'
-    NATIONAL_CAMPAIGN = 'N'
-    CONTACT_TYPE_CHOICES = (
-        (GENERAL, 'General member of public acting on their own'),
-        (NATIONAL_CAMPAIGN, 'National campaign staff'),
-    )
-
     first_name = models.CharField(max_length=50,
                                   blank=False,
                                   null=False,

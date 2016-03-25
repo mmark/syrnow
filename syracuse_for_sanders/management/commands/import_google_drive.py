@@ -8,8 +8,8 @@ from django.core.management.base import BaseCommand
 
 from syracuse_for_sanders.models import Volunteer
 
-FILE_PATH = 'data_export.csv'
-SKIPPED_FILE_NAME = 'skipped_log.csv'
+FILE_PATH = '/home/markm/data/data_export.csv'
+SKIPPED_FILE_NAME = '/home/markm/data/skipped_log.csv'
 
 # If DEBUG is not False then this will consume enormous amounts of memory
 settings.DEBUG = False
