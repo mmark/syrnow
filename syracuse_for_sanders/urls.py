@@ -9,3 +9,6 @@ urlpatterns = [
     url(r'^volunteer', S4SVolunteerView.as_view(), name='s4svolunteer'),
     url(r'^$', S4SVolunteerView.as_view()),
 ]
+
+RECAPTCHA_PUBLIC_KEY = '6LdcbxsTAAAAAJVVEIW7ljeXXJ6BwTlpvubsylix'
+RECAPTCHA_PRIVATE_KEY = '6LdcbxsTAAAAAFgGowBRuMAiwgFqBGRolHzf_qgM'

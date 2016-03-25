@@ -126,13 +126,12 @@ class Volunteer(models.Model):
     state = models.CharField(max_length=2,
                              blank=True,
                              null=True)
-    zip_code = models.CharField(max_length=10)
+    zip_code = models.CharField(max_length=10,
+                                blank=True,
+                                null=True)
     hours_days_ok_to_volunteer = models.TextField(blank=True,
                                                   null=True,
                                                   validators=[ALPHA_VALIDATOR])
-    how_much_time_can_volunteer = models.TextField(blank=True,
-                                                   null=True,
-                                                   validators=[ALPHA_VALIDATOR])
     most_interested_in_volunteering_to_do = models.TextField(blank=True,
                                                              null=True,
                                                              validators=[ALPHA_VALIDATOR])
