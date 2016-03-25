@@ -120,17 +120,16 @@ class Command(BaseCommand):
                     state = clean_string_upper_or_none(cur_record[8])
                     zip_code = digits_or_none(cur_record[9])
                     hours_days_ok_to_volunteer = clean_string(cur_record[10])
-                    how_much_time_can_volunteer = clean_string(cur_record[11])
-                    most_interested_in_volunteering_to_do = clean_string(cur_record[12])
-                    email = clean_string_lower_or_none(cur_record[13])
-                    facebook_name = clean_string_titled_or_none(cur_record[14])
-                    twitter_handle = clean_string(cur_record[15])
-                    other_social_media = clean_string(cur_record[16])
-                    member_of_syracuse_for_sanders_facebook = self.bool_val(cur_record[17])
-                    where_do_you_work = clean_string_titled_or_none(cur_record[18])
-                    what_skills_do_you_bring = clean_string(cur_record[19])
-                    member_of_any_community_groups = clean_string(cur_record[20])
-                    willing_to_volunteer_for_bernie_friendly_candidates = self.bool_val(cur_record[21])
+                    most_interested_in_volunteering_to_do = clean_string(cur_record[11])
+                    email = clean_string_lower_or_none(cur_record[12])
+                    facebook_name = clean_string_titled_or_none(cur_record[13])
+                    twitter_handle = clean_string(cur_record[14])
+                    other_social_media = clean_string(cur_record[15])
+                    member_of_syracuse_for_sanders_facebook = self.bool_val(cur_record[16])
+                    where_do_you_work = clean_string_titled_or_none(cur_record[17])
+                    what_skills_do_you_bring = clean_string(cur_record[18])
+                    member_of_any_community_groups = clean_string(cur_record[19])
+                    willing_to_volunteer_for_bernie_friendly_candidates = self.bool_val(cur_record[20])
 
                     try:
                         Volunteer.objects.create(
@@ -145,7 +144,6 @@ class Command(BaseCommand):
                             state=state,
                             zip_code=zip_code,
                             hours_days_ok_to_volunteer=hours_days_ok_to_volunteer,
-                            how_much_time_can_volunteer=how_much_time_can_volunteer,
                             most_interested_in_volunteering_to_do=most_interested_in_volunteering_to_do,
                             email=email,
                             facebook_name=facebook_name,

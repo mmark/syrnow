@@ -93,7 +93,6 @@ class VolunteerAdmin(admin.ModelAdmin):
                        'other_social_media')}),
         ('Volunteer Availability', {
            'fields': ('hours_days_ok_to_volunteer',
-                      'how_much_time_can_volunteer',
                       'most_interested_in_volunteering_to_do')}),
         ('Skills and Groups', {
             'fields': ('where_do_you_work',
@@ -111,7 +110,7 @@ class VolunteerAdmin(admin.ModelAdmin):
         'hours_days_ok_to_contact_on_this_number',
         'any_alternate_numbers', 'street_address',
         'suite_or_apartment_number', 'city', 'state', 'zip_code',
-        'hours_days_ok_to_volunteer', 'how_much_time_can_volunteer',
+        'hours_days_ok_to_volunteer',
         'most_interested_in_volunteering_to_do',
         'email', 'facebook_name', 'twitter_handle', 'other_social_media',
         'member_of_syracuse_for_sanders_facebook', 'where_do_you_work',

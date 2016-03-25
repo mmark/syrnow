@@ -54,7 +54,7 @@ class VolunteerForm(ModelForm):
                   'hours_days_ok_to_contact_on_this_number',
                   'any_alternate_numbers', 'street_address',
                   'suite_or_apartment_number', 'city', 'state', 'zip_code',
-                  'hours_days_ok_to_volunteer', 'how_much_time_can_volunteer',
+                  'hours_days_ok_to_volunteer',
                   'most_interested_in_volunteering_to_do', 'email',
                   'facebook_name', 'twitter_handle', 'other_social_media',
                   'member_of_syracuse_for_sanders_facebook',
@@ -117,12 +117,6 @@ class VolunteerForm(ModelForm):
                 attrs={'class': 'form-control',
                        'placeholder': 'Normally which days do you have available to do volunteer work, and during which hours?',
                        'title': 'Normally which days do you have available to do volunteer work, and during which hours?',
-                       'rows': 2}
-            ),
-            'how_much_time_can_volunteer': Textarea(
-                attrs={'class': 'form-control',
-                       'placeholder': 'On an average week how many hours would you be interested in volunteering?',
-                       'title': 'On an average week how many hours would you be interested in volunteering?',
                        'rows': 2}
             ),
             'most_interested_in_volunteering_to_do': Textarea(
