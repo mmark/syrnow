@@ -173,3 +173,18 @@ class Volunteer(models.Model):
     def __unicode__(self):
 
         return u'%s, %s' % (self.first_name, self.last_name)
+
+
+class VolunteerSuccess(models.Model):
+    thank_you_text = models.TextField()
+    is_active = models.BooleanField(default=False)
+    last_edited = models.DateTimeField(auto_now=True,
+                                       blank=True)
+
+    class Meta:
+        db_table = 'volunteer_success_page'
+        verbose_name_plural = 'Volunteer Success'
+
+    def __unicode__(self):
+
+        return self.thank_you_text

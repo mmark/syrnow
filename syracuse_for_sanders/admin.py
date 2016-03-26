@@ -2,12 +2,11 @@ from __future__ import unicode_literals
 
 from datetime import timedelta
 
+from ckeditor.widgets import CKEditorWidget
+from django import forms
 from django.contrib import admin
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.utils import timezone
-from django.utils.http import urlencode
-from django.core.urlresolvers import reverse
 
 from .models import *
 
@@ -15,8 +14,10 @@ from .models import *
 class FormRecipientsAdmin(admin.ModelAdmin):
     model = FormRecipients
     fields = ['type', 'user']
-    search_fields = ['type', 'user__email', 'user__first_name', 'user__last_name']
+    search_fields = ['type', 'user__email', 'user__first_name',
+                     'user__last_name']
     ordering = ['type']
+
 
 admin.site.register(FormRecipients, FormRecipientsAdmin)
 
@@ -30,6 +31,7 @@ class VolunteerEmailsAdmin(admin.ModelAdmin):
     search_fields = ['recipient_list', 'from_address', 'subject',
                      'message', 'sent_time']
     ordering = ['sent_time', 'sent_by', 'subject']
+
 
 admin.site.register(VolunteerEmails, VolunteerEmailsAdmin)
 
@@ -71,7 +73,7 @@ class VolunteerAdmin(admin.ModelAdmin):
     """
     Admin for volunteer form submissions
     """
-    models = Volunteer
+    model = Volunteer
     list_filter = [VolunteerPeriodFilter]
     actions = ['email_selected_users']
     fieldsets = (
@@ -92,8 +94,8 @@ class VolunteerAdmin(admin.ModelAdmin):
                        'twitter_handle',
                        'other_social_media')}),
         ('Volunteer Availability', {
-           'fields': ('hours_days_ok_to_volunteer',
-                      'most_interested_in_volunteering_to_do')}),
+            'fields': ('hours_days_ok_to_volunteer',
+                       'most_interested_in_volunteering_to_do')}),
         ('Skills and Groups', {
             'fields': ('where_do_you_work',
                        'what_skills_do_you_bring',
@@ -120,7 +122,8 @@ class VolunteerAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
 
-        if 'has_been_contacted' in form.changed_data and form.cleaned_data.get('has_been_contacted'):
+        if 'has_been_contacted' in form.changed_data and form.cleaned_data.get(
+                'has_been_contacted'):
             obj.contacted_by = request.user
 
         obj.save()
@@ -133,7 +136,7 @@ class VolunteerAdmin(admin.ModelAdmin):
             if volunteer.email:
 
                 if len(recipient_list) > 0:
-                    recipient_list = recipient_list + ', '
+                    recipient_list += ', '
 
                 recipient_list += volunteer.email
 
@@ -143,4 +146,28 @@ class VolunteerAdmin(admin.ModelAdmin):
 
     email_selected_users.short_description = "Email all selected users"
 
+
 admin.site.register(Volunteer, VolunteerAdmin)
+
+
+class VolunteerSuccessForm(forms.ModelForm):
+
+    class Meta:
+        model = VolunteerSuccess
+        fields = ['thank_you_text', 'is_active']
+        widgets = {
+            'thank_you_text': CKEditorWidget(),
+        }
+
+
+class VolunteerSuccessAdmin(admin.ModelAdmin):
+    model = VolunteerSuccess
+    form = VolunteerSuccessForm
+    fields = ['thank_you_text', 'is_active', 'last_edited']
+    list_display = ['thank_you_text', 'is_active', 'last_edited']
+    list_display_links = ['thank_you_text', 'is_active', 'last_edited']
+    search_fields = ['thank_you_text', 'is_active', 'last_edited']
+    readonly_fields = ['last_edited']
+
+
+admin.site.register(VolunteerSuccess, VolunteerSuccessAdmin)

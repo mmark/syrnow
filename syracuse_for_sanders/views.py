@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.html import strip_tags
 from django.views.decorators.csrf import csrf_protect
@@ -11,7 +12,7 @@ from django.utils.http import urlunquote
 
 
 from .utility_functions import send_submission_notification
-from .models import Volunteer, FormRecipients
+from .models import Volunteer, FormRecipients, VolunteerSuccess
 from .forms import VolunteerForm, VolunteerEmailsForm
 
 
@@ -70,6 +71,19 @@ class S4SVolunteerSuccessView(TemplateView):
         context['page_title'] = "Volunteer with Syracuse For Sanders - Success"
         context['extra_css'] = []
         context['extra_javascript'] = []
+
+        try:
+            thank_you = VolunteerSuccess.objects.filter(
+                is_active=True,
+                last_edited__lt=timezone.now()).order_by('-last_edited').first()
+        except:
+            thank_you = "Thank you for volunteering to join our " \
+                        "grassroots movement for Bernie Sanders.  " \
+                        "Please jump in and " \
+                        "<a href='http://syracuseforsanders.com/events/'>" \
+                        "start coming to some events!</a>"
+
+        context['thank_you_text'] = thank_you
 
         return context
 

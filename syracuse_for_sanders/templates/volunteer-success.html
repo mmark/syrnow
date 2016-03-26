@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block page_content %}
-<h1>
-    Thank you!
-</h1>
+{% load utility_tags %}
+{% load static from staticfiles %}
+    <div class="container-fluid">
+    {{ thank_you_text }}
+    </div>
 {% endblock %}
