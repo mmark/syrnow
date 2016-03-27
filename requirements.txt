@@ -6,6 +6,7 @@ django-phonenumber-field==1.0.0
 django-recaptcha2==0.1.7
 django-storages==1.4
 furl==0.4.92
+gunicorn==19.4.5
 orderedmultidict==0.7.5
 phonenumbers==7.2.8
 Pillow==3.1.1
